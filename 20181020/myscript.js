@@ -1,9 +1,48 @@
+/*
+class a{
+    var jj = "aaaa";
+    function a_a(){
+        var Today=new Date();
+　       alert("今天日期是 " + Today.getFullYear()+ " 年 " + (Today.getMonth()+1) + " 月 " + Today.getDate() + " 日");
+    }
+    function a_b(){
+        alert(jj);
+    }
+}
+*/
 var index = 0;
 var myVar;
 
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+var x = 200;
+var y = 200;
+var dx = 2;
+var dy = -2;
+
+function draw_ball(){
+    //var canvas = document.getElementById("myCanvas");
+    ctx = canvas.getContext("2d");
+    ctx.beginPath();
+    ctx.arc(x, y, 10, 0, Math.PI*2);
+    ctx.fillStyle = "#000000";
+    ctx.fill();
+    ctx.closePath();
+}
+
+function draw_new_posotion() {
+    //var canvas = document.getElementById("myCanvas");
+    //ctx = canvas.getContext("2d");
+    ctx.clearRect(0, 0, 250, 250);
+    draw_ball();
+    x += dx;
+    y += dy;
+}
+
+
 function draw_a(){
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
+    //var canvas = document.getElementById("myCanvas");
+    ctx = canvas.getContext("2d");
     // Create gradient
     var grd = ctx.createRadialGradient(75, 50, 5, 90, 60, 100);
     grd.addColorStop(0, "red");
@@ -15,8 +54,8 @@ function draw_a(){
 }
 
 function draw_b(){
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
+    //var canvas = document.getElementById("myCanvas");
+    ctx = canvas.getContext("2d");
     // Create gradient
     var grd = ctx.createLinearGradient(0, 0, 200, 0);
     grd.addColorStop(0, "red");
@@ -29,8 +68,8 @@ function draw_b(){
 
 
 function circle(x, y, radius,color1,color2){
-    var canvas = document.getElementById("myCanvas");
-    var ctx = canvas.getContext("2d");
+    //var canvas = document.getElementById("myCanvas");
+    ctx = canvas.getContext("2d");
     ctx.beginPath();
     ctx.arc(x, y, radius,0,2*Math.PI);
     ctx.fillStyle = color2;
@@ -60,7 +99,6 @@ function time_controller(){
     }
     
 }
-
 
 
 

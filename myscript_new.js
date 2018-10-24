@@ -5,11 +5,13 @@ var x = canvas.width/2;
 var y = canvas.height-30;
 var dx = 2;
 var dy = 2;
-
+var u;
 var x1 = canvas.width/2;
 var y1 = canvas.height-30;
 var dx1 = 1;
 var dy1 = 1;
+
+var button_state = 0;
 
 function drawBall() {
     ctx.beginPath();
@@ -55,24 +57,110 @@ function draw() {
     //y1 += dy1;
 }
 
+function go_up_act(){
+    if( y < 10){
+        //y=y;
+    }else{
+        y = y - dy;
+    }
+    draw();
+}
+
 function go_up(){
-    y = y - dy;
+    console.log(button_state);
+    set_button_state();
+    if(button_state == 1){
+        go_up_act();
+        console.log(button_state);
+        console.log(x +","+y);
+        u = setInterval(go_up_act,10);
+    }else{
+        clearInterval(u);
+        console.log(button_state);
+        console.log(x +","+y);
+        go_up_act();
+    }
+    
+}
+
+
+function go_left_act(){
+    if( x < 10){
+       // x=x;
+    }else{
+        x = x - dx;
+    }
     draw();
     
 }
+
 function go_left(){
-    x = x - dx;
+    set_button_state();
+    if(button_state == 1){
+        console.log(button_state);
+        console.log(x +","+y);
+        u = setInterval(go_left_act,10);
+    }else{
+       console.log(button_state);
+       console.log(x +","+y);
+        clearInterval(u);
+    }
+    
+}
+
+function go_right_act(){
+    if( x > canvas.width-10){
+      //  x=x;
+    }else{
+        x = x + dx;
+    }
     draw();
     
 }
+
 function go_right(){
-    x = x + dx;
+    set_button_state();
+    if(button_state == 1){
+        console.log(button_state);
+        console.log(x +","+y);
+        u = setInterval(go_right_act,10);
+    }else{
+        console.log(button_state);
+        console.log(x +","+y);
+        clearInterval(u);
+    }
+    
+}
+
+function go_down_act(){
+    if( y > canvas.height-10){
+       // y=y;
+    }else{
+        y = y + dy;
+    }
     draw();
     
 }
+
 function go_down(){
-    y = y + dy;
-    draw();
+    set_button_state();
+    if(button_state == 1){
+        console.log(button_state);
+        console.log(x +","+y);
+        u = setInterval(go_down_act,10);
+    }else{
+        console.log(button_state);
+        console.log(x +","+y);
+        clearInterval(u);
+    }
     
+}
+
+function set_button_state(){
+    if(button_state == 0){
+        button_state = 1;
+    }else{
+        button_state = 0;
+    }
 }
 //setInterval(draw, 10);

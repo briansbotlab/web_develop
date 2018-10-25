@@ -8,24 +8,31 @@ var y = 125;
 var dx = 2;
 var dy = 2;
 var u;
+/*
 var x1 = 20;
 var y1 = 30;
 var dx1 = 1;
 var dy1 = -1;
-var random_int = (Math.random()*10)-1;
+*/
 var button_state = 0;
 
-function small_ball() {
+function small_ball(x1, y1, size, color,dx1,dy1) {
+		this.x1=x1;
+		this.y1=y1;
+		this.size=size;
+		this.color=color;
+		this.dx1 = dx1;
+		this.dy1 = dy1;
         }
         //画方块的方法
         small_ball.prototype.draw = function() {
             ctx.beginPath();
-            ctx.arc(x1, y1, 3, 0, Math.PI*2);
-            ctx.fillStyle = "#000000";
+            ctx.arc(this.x1, this.y1, this.size, 0, Math.PI*2);
+            ctx.fillStyle = this.color;
             ctx.fill();
             ctx.closePath();
         }
-var small_ball = new small_ball()
+var small_ball = new small_ball(90,90,5,"#ff95DD",1,-1);
         
 function normal_ball() {
         }
@@ -37,7 +44,7 @@ function normal_ball() {
             ctx.fill();
             ctx.closePath();
         }
-var normal_ball = new normal_ball()
+var normal_ball = new normal_ball();
         
 /*        
 function drawBall() {
@@ -49,23 +56,61 @@ function drawBall() {
 }
 */
 
+function getAt(){
+	console.log(small_ball.x1);
+	small_ball.x1 += 5;
+}
 
 function draw2() {
+	x1 = small_ball.x1;
+	dx1 = small_ball.dx1;
+	y1 = small_ball.y1;
+	dy1 =  small_ball.dy1;
+
+	var random_int = Math.round(Math.random()*5)+1;
     //ctx.clearRect(x1, y1, 5, 5);
     
     //ctx.clearRect(x1-5, y1-5, 10, 10);
     small_ball.draw();
 
-    if(x1 + dx1 > canvas.width-10 || x1 + dx1 < 10) {
-        dx1 = -dx1;
+    if(x1 + dx1 > canvas.width-10 || (x1 + dx1) < 10) {
+		if(random_int>3 && Math.abs(dx1 + dy1)< 10){
+			dx1 = -1*(dx1*random_int);
+			//dy1 = (dy1/random_int);
+			console.log("a");
+		}else{
+			dx1 = -1*(dx1/random_int);
+			
+			console.log("b");
+		}
     }
-    if(y1 + dy > canvas.height-5 || y1 + dy1 < 10) {
-        dy1 = -dy1;
+    if(y1 + dy1 > canvas.height-5 || (y1 + dy1) < 10) {
+		if(random_int>3 && Math.abs(dx1 + dy1)< 15){
+			dx1 = (dx/random_int);
+			dy1 = -1*(dy1*random_int);
+			console.log("c");
+		}else{
+			
+			dy1 = -1*(dy1/random_int);
+			console.log("d");
+		}
     }
 
-    
     x1 += dx1;
     y1 += dy1;
+	
+	small_ball.x1 = x1;
+	small_ball.dx1 = dx1;
+	small_ball.y1 = y1;
+	small_ball.dy1 = dy1;
+	
+}
+
+function check_crash(){
+    if(200 < Math.abs(x+10) && Math.abs(y+10) > 50){
+        console.log("crash");
+    }
+    
 }
 
 function clean_canvas(){
@@ -73,15 +118,10 @@ function clean_canvas(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     normal_ball.draw();
     small_ball.draw();
-    //check_crash();
+    check_crash();
 }
 
-function check_crash(){
-    if(x1+5 == x+10 && y+10 ==y1+5){
-        ballRadius += 10;
-    }
-    
-}
+
 
 function draw() {
     //ctx.clearRect(x, y, 5, 5);

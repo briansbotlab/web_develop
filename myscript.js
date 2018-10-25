@@ -1,22 +1,22 @@
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
-//var ctx2 =canvas.getContext("2d");
+
 var ballRadius = 20;
 var x = 125;
 var y = 125;
 var dx = 2;
 var dy = 2;
 var u;
-/*
-var x1 = 20;
-var y1 = 30;
-var dx1 = 1;
-var dy1 = -1;
-*/
+var normal_ball_color = "#ffaa00";
+
 var button_state = 0;
 
-function small_ball(x1, y1, size, color,dx1,dy1) {
+var num_of_small_balls =2;
+var small_balls= new Array(num_of_small_balls);
+
+
+function small_ball(x1, y1, size, color, dx1, dy1) {
 		this.x1=x1;
 		this.y1=y1;
 		this.size=size;
@@ -32,29 +32,35 @@ function small_ball(x1, y1, size, color,dx1,dy1) {
             ctx.fill();
             ctx.closePath();
         }
-var small_ball = new small_ball(90,90,5,"#ff95DD",1,-1);
+
+
+var small_ball_01 = new small_ball(90,90,5,"#ff95DD",1,-1);
+small_balls[0]=small_ball_01;
+
+var small_ball_02 = new small_ball(100,170,10,"#ff00DD",1,-1);
+small_balls[1] = small_ball_02;
         
+function create_small_balls(){
+    
+    var small_ball_tmp = new small_ball(120,60,7,"#ff95DD",1,-1);
+    small_balls.push(small_ball_tmp);
+    
+    num_of_small_balls += 1;
+}
+
 function normal_ball() {
         }
         //画方块的方法
         normal_ball.prototype.draw = function() {
             ctx.beginPath();
             ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-            ctx.fillStyle = "#0095DD";
+            ctx.fillStyle = normal_ball_color;
             ctx.fill();
             ctx.closePath();
         }
 var normal_ball = new normal_ball();
         
-/*        
-function drawBall() {
-    ctx.beginPath();
-    ctx.arc(x, y, ballRadius, 0, Math.PI*2);
-    ctx.fillStyle = "#0095DD";
-    ctx.fill();
-    ctx.closePath();
-}
-*/
+
 
 function getAt(){
 	console.log(small_ball.x1);
@@ -62,62 +68,81 @@ function getAt(){
 }
 
 function draw2() {
-	x1 = small_ball.x1;
-	dx1 = small_ball.dx1;
-	y1 = small_ball.y1;
-	dy1 =  small_ball.dy1;
+    for (i = 0; i < num_of_small_balls; i++) {
+        x1 = small_balls[i].x1;
+        dx1 = small_balls[i].dx1;
+        y1 = small_balls[i].y1;
+        dy1 =  small_balls[i].dy1;
+        
+        var random_int = Math.round(Math.random()*2)+1;
 
-	var random_int = Math.round(Math.random()*5)+1;
-    //ctx.clearRect(x1, y1, 5, 5);
-    
-    //ctx.clearRect(x1-5, y1-5, 10, 10);
-    small_ball.draw();
+        small_balls[i].draw();
+        
+        if(x1 + dx1 > canvas.width-5 || x1 + dx1 < 10) {
+            if(Math.abs(dx1)<10){
+                dx1 = -dx1 * random_int;
+            
+                console.log("a");
+            }else{
+                dx1 = -dx1 / random_int;
+            }
+                
+                
+            console.log(x1+","+y1 +"   "+ canvas.width +","+ canvas.height +"    "+random_int);
+        }
+        if(y1 + dy1 > canvas.height-5 || y1 + dy1 < 10) {
+                if(Math.abs(dy1)<10){
+                dy1 = -dy1 * random_int;
+                
+                console.log("c");
+                }else{
+                    dy1 = -dy1 / random_int;
+                }
+                
+                
+            console.log(x1+","+y1 +"   "+ canvas.width +","+ canvas.height +"    "+random_int +"   "+ i );
+        }
 
-    if(x1 + dx1 > canvas.width-10 || (x1 + dx1) < 10) {
-		if(random_int>3 && Math.abs(dx1 + dy1)< 10){
-			dx1 = -1*(dx1*random_int);
-			//dy1 = (dy1/random_int);
-			console.log("a");
-		}else{
-			dx1 = -1*(dx1/random_int);
-			
-			console.log("b");
-		}
+        x1 += dx1;
+        y1 += dy1;
+        
+        small_balls[i].x1 = x1;
+        small_balls[i].dx1 = dx1;
+        small_balls[i].y1 = y1;
+        small_balls[i].dy1 = dy1;
+        
     }
-    if(y1 + dy1 > canvas.height-5 || (y1 + dy1) < 10) {
-		if(random_int>3 && Math.abs(dx1 + dy1)< 15){
-			dx1 = (dx/random_int);
-			dy1 = -1*(dy1*random_int);
-			console.log("c");
-		}else{
-			
-			dy1 = -1*(dy1/random_int);
-			console.log("d");
-		}
-    }
-
-    x1 += dx1;
-    y1 += dy1;
-	
-	small_ball.x1 = x1;
-	small_ball.dx1 = dx1;
-	small_ball.y1 = y1;
-	small_ball.dy1 = dy1;
-	
 }
 
 function check_crash(){
-    if(200 < Math.abs(x+10) && Math.abs(y+10) > 50){
-        console.log("crash");
+    var random_color_1 = Math.round(Math.random()*234)+20;
+    var random_color_2 = Math.round(Math.random()*234)+20;
+    var random_color_3 = Math.round(Math.random()*234)+20;
+    for (i = 0; i < num_of_small_balls; i++) {
+        if(small_balls[i].x1 > x-ballRadius && small_balls[i].x1 < x +ballRadius  ){
+            if(small_balls[i].y1 > y-ballRadius && small_balls[i].y1 < y +ballRadius){
+                if(ballRadius < 30){
+                ballRadius ++;
+                 
+                
+                }
+            if(num_of_small_balls <10){
+            create_small_balls();
+            }
+            normal_ball_color = "#"+fullColorHex(random_color_1, random_color_2, random_color_3);
+            console.log("crash" + ballRadius +"  "+fullColorHex(random_color_1, random_color_2, random_color_3));
+            }
+        }
     }
-    
 }
 
 function clean_canvas(){
     draw2();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     normal_ball.draw();
-    small_ball.draw();
+    for (i = 0; i < num_of_small_balls; i++) {
+        small_balls[i].draw();
+    }
     check_crash();
 }
 
@@ -129,28 +154,6 @@ function draw() {
     //ctx.clearRect(x-5, y-5, 10, 10);
     normal_ball.draw();
 
-    
-    //drawBall_2();
-    /*
-    if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
-        dx = -dx;
-    }
-    if(y + dy > canvas.height-ballRadius || y + dy < ballRadius) {
-        dy = -dy;
-    }
-    */
-    //if(x1 + dx1 > canvas.width-3 || x1 + dx1 < 3) {
-    //    dx1 = -dx1;
-    //}
-    //if(y + dy > canvas.height-3 || y1 + dy1 < 3) {
-    //    dy1 = -dy1;
-    //}
-    
-    //x += dx;
-    //y += dy;
-    
-    //x1 += dx1;
-    //y1 += dy1;
 }
 
 function go_up_act(){
@@ -269,5 +272,23 @@ function set_button_state(){
     並把它印在console中*/
 //  console.log(`${event.pageX},${event.pageY}`)
 //})
+
+
+var rgbToHex = function (rgb) { 
+  var hex = Number(rgb).toString(16);
+  if (hex.length < 2) {
+       hex = "0" + hex;
+  }
+  return hex;
+};
+
+var fullColorHex = function(r,g,b) {   
+  var red = rgbToHex(r);
+  var green = rgbToHex(g);
+  var blue = rgbToHex(b);
+  return red+green+blue;
+};
+
+
 
 setInterval(clean_canvas, 10);

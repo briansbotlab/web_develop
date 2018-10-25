@@ -88,7 +88,7 @@ function draw2() {
             }
                 
                 
-            console.log(x1+","+y1 +"   "+ canvas.width +","+ canvas.height +"    "+random_int);
+            //console.log(x1+","+y1 +"   "+ canvas.width +","+ canvas.height +"    "+random_int);
         }
         if(y1 + dy1 > canvas.height-5 || y1 + dy1 < 10) {
                 if(Math.abs(dy1)<10){
@@ -100,7 +100,7 @@ function draw2() {
                 }
                 
                 
-            console.log(x1+","+y1 +"   "+ canvas.width +","+ canvas.height +"    "+random_int +"   "+ i );
+            //console.log(x1+","+y1 +"   "+ canvas.width +","+ canvas.height +"    "+random_int +"   "+ i );
         }
 
         x1 += dx1;
@@ -130,7 +130,7 @@ function check_crash(){
             create_small_balls();
             }
             normal_ball_color = "#"+fullColorHex(random_color_1, random_color_2, random_color_3);
-            console.log("crash" + ballRadius +"  "+fullColorHex(random_color_1, random_color_2, random_color_3));
+            //console.log("crash" + ballRadius +"  "+fullColorHex(random_color_1, random_color_2, random_color_3));
             }
         }
     }
@@ -144,6 +144,8 @@ function clean_canvas(){
         small_balls[i].draw();
     }
     check_crash();
+    check_t_x();
+    check_t_y();
 }
 
 
@@ -289,6 +291,76 @@ var fullColorHex = function(r,g,b) {
   return red+green+blue;
 };
 
+canvas.addEventListener("touchmove", end_handler, false);
+canvas.addEventListener("touchstart", start_handler, false);
+canvas.addEventListener("touchend", action_handler, false);
+
+
+var start_t_x = 0;
+var start_t_y = 0;
+var end_t_x = 0;
+var end_t_y = 0;
+
+function start_handler(event){
+    start_t_x = event.touches[0].clientX;
+    start_t_y = event.touches[0].clientY;
+}
+
+function end_handler(event){
+    end_t_x = event.touches[0].clientX;
+    end_t_y = event.touches[0].clientY;
+    
+}
+
+function check_t_x(){
+    if(end_t_x > x ){
+      //console.log("to right");
+      go_right_act();
+      
+  }else{
+      //console.log("to left");
+      go_left_act();
+      
+  }
+}
+
+function check_t_y(){
+    if(end_t_y > y){
+      //console.log("to down");
+      go_down_act();
+      
+  }else{
+      //console.log("to up");
+      go_up_act();
+  }
+}
+
+function action_handler() {
+  //var t_x = event.touches[0].clientX;
+  //var t_y = event.touches[0].clientY;
+  
+  
+  if(start_t_x - end_t_x < 0){
+      //console.log("to right");
+      go_right_act();
+      
+  }else{
+      //console.log("to left");
+      go_left_act();
+      
+  }
+  
+  if(start_t_y - end_t_y < 0){
+      //console.log("to down");
+      go_down_act();
+      
+  }else{
+      //console.log("to up");
+      go_up_act();
+  }
+  
+  //console.log("touch" +t_x+", "+t_y);
+}
 
 
 setInterval(clean_canvas, 10);

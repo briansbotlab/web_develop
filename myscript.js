@@ -34,7 +34,7 @@ function small_ball(x1, y1, size, color, dx1, dy1) {
         }
 
 
-var small_ball_01 = new small_ball(90,90,5,"#ff95DD",1,-1);
+var small_ball_01 = new small_ball(90,90,50,"#ff95DD",1,-1);
 small_balls[0]=small_ball_01;
 
 var small_ball_02 = new small_ball(100,170,10,"#ff00DD",1,-1);
@@ -61,11 +61,6 @@ function normal_ball() {
 var normal_ball = new normal_ball();
         
 
-
-function getAt(){
-	console.log(small_ball.x1);
-	small_ball.x1 += 5;
-}
 
 function draw2() {
     for (i = 0; i < num_of_small_balls; i++) {
@@ -363,4 +358,4 @@ function action_handler() {
 }
 
 
-setInterval(clean_canvas, 10);
+setInterval(clean_canvas, 1);

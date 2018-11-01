@@ -12,9 +12,12 @@ var normal_ball_color = "#ffaa00";
 
 var button_state = 0;
 
-var num_of_small_balls =2;
+var num_of_small_balls =1;
+var real_ball_num = 1;
 var small_balls= new Array(num_of_small_balls);
 
+var enemy_ball_color = "#b69eff";
+var friend_ball_color = "#e0e809";
 
 function small_ball(x1, y1, size, color, dx1, dy1) {
 		this.x1=x1;
@@ -34,15 +37,18 @@ function small_ball(x1, y1, size, color, dx1, dy1) {
         }
 
 
-var small_ball_01 = new small_ball(90,90,50,"#ff95DD",1,-1);
+var small_ball_01 = new small_ball(300,300,50,"#f91189",1,-1);
 small_balls[0]=small_ball_01;
 
-var small_ball_02 = new small_ball(100,170,10,"#ff00DD",1,-1);
-small_balls[1] = small_ball_02;
         
 function create_small_balls(){
     
-    var small_ball_tmp = new small_ball(120,60,7,"#ff95DD",1,-1);
+    if((num_of_small_balls%2) == 1){
+    var small_ball_tmp = new small_ball(120,60,15,enemy_ball_color,1,-1);
+    }else if ((num_of_small_balls%2) == 0){
+    var small_ball_tmp = new small_ball(300,360,15,friend_ball_color,1,-1);
+    }
+    
     small_balls.push(small_ball_tmp);
     
     num_of_small_balls += 1;
@@ -64,48 +70,49 @@ var normal_ball = new normal_ball();
 
 function draw2() {
     for (i = 0; i < num_of_small_balls; i++) {
-        x1 = small_balls[i].x1;
-        dx1 = small_balls[i].dx1;
-        y1 = small_balls[i].y1;
-        dy1 =  small_balls[i].dy1;
-        
-        var random_int = Math.round(Math.random()*2)+1;
-
-        small_balls[i].draw();
-        
-        if(x1 + dx1 > canvas.width-5 || x1 + dx1 < 10) {
-            if(Math.abs(dx1)<10){
-                dx1 = -dx1 * random_int;
+        if(small_balls[i] != null){
+            x1 = small_balls[i].x1;
+            dx1 = small_balls[i].dx1;
+            y1 = small_balls[i].y1;
+            dy1 =  small_balls[i].dy1;
             
-                console.log("a");
-            }else{
-                dx1 = -dx1 / random_int;
-            }
+            var random_int = Math.round(Math.random()*2)+1;
+            
+            small_balls[i].draw();
+            
+            if(x1 + dx1 > canvas.width-5 || x1 + dx1 < 10) {
+                if(Math.abs(dx1)<10){
+                    dx1 = -dx1 * random_int;
                 
-                
-            //console.log(x1+","+y1 +"   "+ canvas.width +","+ canvas.height +"    "+random_int);
-        }
-        if(y1 + dy1 > canvas.height-5 || y1 + dy1 < 10) {
-                if(Math.abs(dy1)<10){
-                dy1 = -dy1 * random_int;
-                
-                console.log("c");
+                    console.log("a");
                 }else{
-                    dy1 = -dy1 / random_int;
+                    dx1 = -dx1 / random_int;
                 }
-                
-                
-            //console.log(x1+","+y1 +"   "+ canvas.width +","+ canvas.height +"    "+random_int +"   "+ i );
-        }
+                    
+                    
+                //console.log(x1+","+y1 +"   "+ canvas.width +","+ canvas.height +"    "+random_int);
+            }
+            if(y1 + dy1 > canvas.height-5 || y1 + dy1 < 10) {
+                    if(Math.abs(dy1)<10){
+                    dy1 = -dy1 * random_int;
+                    
+                    console.log("c");
+                    }else{
+                        dy1 = -dy1 / random_int;
+                    }
+                    
+                    
+                //console.log(x1+","+y1 +"   "+ canvas.width +","+ canvas.height +"    "+random_int +"   "+ i );
+            }
 
-        x1 += dx1;
-        y1 += dy1;
-        
-        small_balls[i].x1 = x1;
-        small_balls[i].dx1 = dx1;
-        small_balls[i].y1 = y1;
-        small_balls[i].dy1 = dy1;
-        
+            x1 += dx1;
+            y1 += dy1;
+            
+            small_balls[i].x1 = x1;
+            small_balls[i].dx1 = dx1;
+            small_balls[i].y1 = y1;
+            small_balls[i].dy1 = dy1;
+        }
     }
 }
 
@@ -114,20 +121,26 @@ function check_crash(){
     var random_color_2 = Math.round(Math.random()*234)+20;
     var random_color_3 = Math.round(Math.random()*234)+20;
     for (i = 0; i < num_of_small_balls; i++) {
-        if(small_balls[i].x1 > x-ballRadius && small_balls[i].x1 < x +ballRadius  ){
-            if(small_balls[i].y1 > y-ballRadius && small_balls[i].y1 < y +ballRadius){
-                if(ballRadius < 30){
-                ballRadius ++;
-                 
-                
+        if(small_balls[i] != null){
+            if(small_balls[i].x1 > x-ballRadius && small_balls[i].x1 < x +ballRadius  ){
+                if(small_balls[i].y1 > y-ballRadius && small_balls[i].y1 < y +ballRadius){
+                    if(small_balls[i].color == friend_ball_color){
+                        small_balls[i] = null;
+                        num_of_small_balls--;
+                    }
+                        
+                    if(ballRadius < 30){
+                    ballRadius ++;
+
+                    }
+                    if(num_of_small_balls <10){
+                    create_small_balls();
+                    }
+                    normal_ball_color = "#"+fullColorHex(random_color_1, random_color_2, random_color_3);
+                    //console.log("crash" + ballRadius +"  "+fullColorHex(random_color_1, random_color_2, random_color_3));
                 }
-            if(num_of_small_balls <10){
-            create_small_balls();
             }
-            normal_ball_color = "#"+fullColorHex(random_color_1, random_color_2, random_color_3);
-            //console.log("crash" + ballRadius +"  "+fullColorHex(random_color_1, random_color_2, random_color_3));
-            }
-        }
+        }    
     }
 }
 
@@ -136,11 +149,14 @@ function clean_canvas(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     normal_ball.draw();
     for (i = 0; i < num_of_small_balls; i++) {
-        small_balls[i].draw();
+        if(small_balls[i] != null){
+            small_balls[i].draw();
+        }
     }
     check_crash();
     check_t_x();
     check_t_y();
+    drawScore();
 }
 
 
@@ -330,6 +346,23 @@ function check_t_y(){
   }
 }
 
+function count_not_null_ball_array(){
+    real_ball_num = 1;
+    for (i = 1; i < num_of_small_balls; i++) {
+        if(small_balls[i] != null){
+            real_ball_num++;
+        }
+    }
+}
+
+
+function drawScore() { //顯示球的數量
+    count_not_null_ball_array();
+    ctx.font = "72px Arial";
+    ctx.fillStyle = "#ffffff";
+    ctx.fillText("Number of balls: "+real_ball_num, 20, 60);
+}
+
 function action_handler() {
   //var t_x = event.touches[0].clientX;
   //var t_y = event.touches[0].clientY;
@@ -358,4 +391,4 @@ function action_handler() {
 }
 
 
-setInterval(clean_canvas, 1);
+setInterval(clean_canvas, 10);

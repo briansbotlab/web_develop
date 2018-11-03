@@ -1,12 +1,14 @@
+
+
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
 
 var ballRadius = 20;
-var x = 125;
-var y = 125;
-var dx = 2;
-var dy = 2;
+var x = 225;
+var y = 225;
+var dx = 1;
+var dy = 1;
 var u;
 var normal_ball_color = "#ffaa00";
 
@@ -88,8 +90,7 @@ function draw2() {
                 }else{
                     dx1 = -dx1 / random_int;
                 }
-                    
-                    
+
                 //console.log(x1+","+y1 +"   "+ canvas.width +","+ canvas.height +"    "+random_int);
             }
             if(y1 + dy1 > canvas.height-5 || y1 + dy1 < 10) {
@@ -100,8 +101,7 @@ function draw2() {
                     }else{
                         dy1 = -dy1 / random_int;
                     }
-                    
-                    
+
                 //console.log(x1+","+y1 +"   "+ canvas.width +","+ canvas.height +"    "+random_int +"   "+ i );
             }
 
@@ -144,20 +144,6 @@ function check_crash(){
     }
 }
 
-function clean_canvas(){
-    draw2();
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    normal_ball.draw();
-    for (i = 0; i < num_of_small_balls; i++) {
-        if(small_balls[i] != null){
-            small_balls[i].draw();
-        }
-    }
-    check_crash();
-    check_t_x();
-    check_t_y();
-    drawScore();
-}
 
 
 
@@ -391,4 +377,3 @@ function action_handler() {
 }
 
 
-setInterval(clean_canvas, 10);

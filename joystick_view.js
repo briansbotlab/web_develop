@@ -1,5 +1,5 @@
-document.write('<script src="nipplejs.js" charset="utf-8"></script>'); //import file
-document.write('<script src="myscript.js"></script>'); //import file
+//document.write('<script src="nipplejs.js" charset="utf-8"></script>'); //import file
+//document.write('<script src="myscript.js"></script>'); //import file
 
 var jot_x;
 var jot_y;
@@ -127,8 +127,11 @@ function check_is_pressure(){
     
 }
 
+
+
+
 function clean_canvas(){
-    draw2();
+    draw_many_balls();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     normal_ball.draw();
     for (i = 0; i < num_of_small_balls; i++) {
@@ -139,6 +142,11 @@ function clean_canvas(){
     check_crash();
     check_is_pressure();
     drawScore();
+    
+    if(real_ball_num == goal_ball_num){
+        clearInterval(action_timer); //停止遊戲
+        
+    }
 }
 
-setInterval(clean_canvas, 1);
+var action_timer = setInterval(clean_canvas, 1);

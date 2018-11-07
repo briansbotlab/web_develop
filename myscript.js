@@ -21,6 +21,8 @@ var small_balls= new Array(num_of_small_balls);
 var enemy_ball_color = "#b69eff";
 var friend_ball_color = "#e0e809";
 
+var goal_ball_num = Math.round(Math.random()*3)+2;
+
 function small_ball(x1, y1, size, color, dx1, dy1) {
 		this.x1=x1;
 		this.y1=y1;
@@ -38,6 +40,10 @@ function small_ball(x1, y1, size, color, dx1, dy1) {
             ctx.closePath();
         }
 
+        
+        
+
+        
 
 var small_ball_01 = new small_ball(300,300,50,"#f91189",1,-1);
 small_balls[0]=small_ball_01;
@@ -70,7 +76,7 @@ var normal_ball = new normal_ball();
         
 
 
-function draw2() {
+function draw_many_balls() {
     for (i = 0; i < num_of_small_balls; i++) {
         if(small_balls[i] != null){
             x1 = small_balls[i].x1;
@@ -120,6 +126,9 @@ function check_crash(){
     var random_color_1 = Math.round(Math.random()*234)+20;
     var random_color_2 = Math.round(Math.random()*234)+20;
     var random_color_3 = Math.round(Math.random()*234)+20;
+    
+    var random_create_chance = Math.round(Math.random()*10);
+    
     for (i = 0; i < num_of_small_balls; i++) {
         if(small_balls[i] != null){
             if(small_balls[i].x1 > x-ballRadius && small_balls[i].x1 < x +ballRadius  ){
@@ -134,7 +143,9 @@ function check_crash(){
 
                     }
                     if(num_of_small_balls <10){
-                    create_small_balls();
+                        if(random_create_chance > 7){
+                        create_small_balls();
+                        }
                     }
                     normal_ball_color = "#"+fullColorHex(random_color_1, random_color_2, random_color_3);
                     //console.log("crash" + ballRadius +"  "+fullColorHex(random_color_1, random_color_2, random_color_3));
@@ -144,13 +155,15 @@ function check_crash(){
     }
 }
 
-
+function sleep(miliseconds) {  //虛度時間
+        var currentTime = new Date().getTime();
+        while (currentTime + miliseconds >= new Date().getTime()) {
+        }
+    }
 
 
 function draw() {
-    //ctx.clearRect(x, y, 5, 5);
-    
-    //ctx.clearRect(x-5, y-5, 10, 10);
+
     normal_ball.draw();
 
 }
@@ -343,11 +356,15 @@ function count_not_null_ball_array(){
 
 
 function drawScore() { //顯示球的數量
+    
     count_not_null_ball_array();
-    ctx.font = "72px Arial";
+    ctx.font = "50px Arial";
     ctx.fillStyle = "#ffffff";
     ctx.fillText("Number of balls: "+real_ball_num, 20, 60);
+    ctx.fillStyle = "#ffff00";
+    ctx.fillText("Number of goal balls: "+goal_ball_num, 720, 60);
 }
+
 
 function action_handler() {
   //var t_x = event.touches[0].clientX;

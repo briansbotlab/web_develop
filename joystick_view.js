@@ -9,7 +9,7 @@ var is_pressure = 0;
 var joystick = nipplejs.create({
     
     mode: 'static',
-    position: { left: '20%', top: '40%' },
+    position: { left: '15%', top: '45%' },
     color: 'green',
     size: 110
 });
@@ -127,8 +127,14 @@ function check_is_pressure(){
     
 }
 
+function show_end_button(){
+    var end_btn = document.getElementById("end_btn");
+    end_btn.style.visibility="visible";
+} 
 
-
+function reload_game(){
+    document.location.href="main.html";
+}
 
 function clean_canvas(){
     draw_many_balls();
@@ -145,6 +151,7 @@ function clean_canvas(){
     
     if(real_ball_num == goal_ball_num){
         clearInterval(action_timer); //停止遊戲
+        show_end_button(); //顯示按鈕
         
     }
 }

@@ -82,3 +82,20 @@ h1 {
     max-height:100%;
     
 }
+
+.game_end{
+    font-size: 40px;
+    position:absolute;
+    background-color: #4CAF50;
+    border-radius: 8px;
+    padding: 50px 70px;
+    left:30%;
+    top:20%;
+    text-align: center;
+    visibility:hidden;
+}
+
+.game_end:hover {
+    background-color: white;
+    color: black;
+}

@@ -21,7 +21,7 @@ var small_balls= new Array(num_of_small_balls);
 var enemy_ball_color = "#b69eff";
 var friend_ball_color = "#e0e809";
 
-var goal_ball_num = Math.round(Math.random()*3)+2;
+var goal_ball_num = Math.round(Math.random()*20)+2;
 
 function small_ball(x1, y1, size, color, dx1, dy1) {
 		this.x1=x1;
@@ -45,7 +45,7 @@ function small_ball(x1, y1, size, color, dx1, dy1) {
 
         
 
-var small_ball_01 = new small_ball(300,300,50,"#f91189",1,-1);
+var small_ball_01 = new small_ball(300,300,30,"#42f4f1",1,-1);
 small_balls[0]=small_ball_01;
 
         
@@ -54,7 +54,7 @@ function create_small_balls(){
     if((num_of_small_balls%2) == 1){
     var small_ball_tmp = new small_ball(120,60,15,enemy_ball_color,1,-1);
     }else if ((num_of_small_balls%2) == 0){
-    var small_ball_tmp = new small_ball(300,360,15,friend_ball_color,1,-1);
+    var small_ball_tmp = new small_ball(1000,360,15,friend_ball_color,1,-1);
     }
     
     small_balls.push(small_ball_tmp);
@@ -140,11 +140,18 @@ function check_crash(){
                         
                     if(ballRadius < 30){
                     ballRadius ++;
-
+    
                     }
-                    if(num_of_small_balls <10){
+                    if(num_of_small_balls <goal_ball_num+50){
                         if(random_create_chance > 7){
-                        create_small_balls();
+                            create_small_balls();
+                            show_hit_text();
+                            small_balls[i].y1 += small_balls[i].dy1*2;
+                            small_balls[i].x1 += small_balls[i].dx1*2;
+                        }else{
+                            show_miss_text();
+                            small_balls[i].y1 += small_balls[i].dy1*2;
+                            small_balls[i].x1 += small_balls[i].dx1*2;
                         }
                     }
                     normal_ball_color = "#"+fullColorHex(random_color_1, random_color_2, random_color_3);
@@ -161,6 +168,19 @@ function sleep(miliseconds) {  //虛度時間
         }
     }
 
+function show_miss_text(){
+    ctx.font = "40px Arial";
+    ctx.fillStyle = "#0ff000";
+    ctx.fillText("Miss", x+10, y+10);
+    sleep(300);
+}
+
+function show_hit_text(){
+    ctx.font = "bold 80px Arial";
+    ctx.fillStyle = "#e00016";
+    ctx.fillText("Hit!!", x-20, y-20);
+    sleep(500);
+}
 
 function draw() {
 

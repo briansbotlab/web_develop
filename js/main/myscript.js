@@ -172,14 +172,14 @@ function show_miss_text(){
     ctx.font = "40px Arial";
     ctx.fillStyle = "#0ff000";
     ctx.fillText("Miss", x+10, y+10);
-    sleep(300);
+    //sleep(300);
 }
 
 function show_hit_text(){
     ctx.font = "bold 80px Arial";
     ctx.fillStyle = "#e00016";
     ctx.fillText("Hit!!", x-20, y-20);
-    sleep(500);
+    //sleep(500);
 }
 
 function draw() {

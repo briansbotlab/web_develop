@@ -169,7 +169,7 @@ function clean_canvas(){
     check_is_pressure();
     drawScore();
     
-    if(real_ball_num == goal_ball_num){
+    if(real_ball_num >= goal_ball_num){
         clearInterval(action_timer); //停止遊戲
         show_end_button(); //顯示按鈕
         
